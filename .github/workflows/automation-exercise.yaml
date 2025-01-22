@@ -34,3 +34,20 @@ jobs:
         path: .coverage
         retention-days: 1
         include-hidden-files: 'true'
+  coverage_report:
+      runs-on: ubuntu-latest
+      steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install dependencies
+        run: pip install coverage
+      - name: Generate Coverage Report
+        run: |
+          coverage report -m
+          coverage xml
